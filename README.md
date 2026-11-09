@@ -1,3 +1,20 @@
+# DIP Amethyst Plugin
+
+## Prerequisites
+
+- **[Amethyst Mod Manager](https://www.nexusmods.com/site/mods/1714)** For the Plugin
+- **[RaceMenu](https://www.nexusmods.com/skyrimspecialedition/mods/19080)** For DIP Patcher
+- ***A DIP Racemenu Patcher***
+
+  + **Choose your perferred**
+  
+    + **[Vel'dun Racemenu DIP](https://www.nexusmods.com/skyrimspecialedition/mods/176230?tab=files)**
+    + **[Oathvein Racemenu DIP](https://www.nexusmods.com/skyrimspecialedition/mods/160916?tab=files)**
+    + **[Norden Racemenu DIP](https://www.nexusmods.com/skyrimspecialedition/mods/166086?tab=files)**
+    + **[NORDIC UI - RaceMenu - DIP Patch](https://www.nexusmods.com/skyrimspecialedition/mods/97348?tab=files)**
+    + **[Untarnished UI - RaceMenu Patch](https://www.nexusmods.com/skyrimspecialedition/mods/97347?tab=files)**
+
+
 ## How to Install Plugin to Amethyst
 
 1. Launch Amethyst Mod Manager
@@ -12,3 +29,4 @@
 | **Folder** | `Plugins` |
 
 5. Hit ***Save***
+6.
