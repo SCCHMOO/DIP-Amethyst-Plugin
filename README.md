@@ -28,5 +28,14 @@
 | **Branch** | `Amethyst-Plugin` |
 | **Folder** | `Plugins` |
 
-5. Hit ***Save***
-6.
+---
+
+5. Press ***Save*** 
+6. Hit ***Dynamic Interface Patcher*** and Press **Download**
+7. Restart **Amethyst Mod Manager**
+## Credits
+
+- ***[Amethyst Mod Manager](https://github.com/ChrisDKN/Amethyst-Mod-Manager)*** by ChrisDKN | Github
+- ***[RaceMenu](https://www.nexusmods.com/skyrimspecialedition/mods/19080)*** by expired6978 | Nexusmods
+- ***[Dynamic Interface Patcher - DIP](https://www.nexusmods.com/skyrimspecialedition/mods/96891)*** by Cutleast | Nexusmods
+- ***[Automatic Patcher](https://www.nexusmods.com/skyrimspecialedition/mods/143035)*** by SkyHorizon3 | Nexusmods
