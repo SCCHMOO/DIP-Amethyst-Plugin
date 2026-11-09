@@ -2,7 +2,7 @@
   "api_version": 1,
   "id": "dynamic_interface_patcher",
   "name": "Dynamic Interface Patcher",
-  "version": "2.1.5-linux.3",
+  "version": "2.1.5-linux.4",
   "author": "Linux port of Cutleast's Dynamic Interface Patcher",
   "min_manager_version": "2.6.0",
   "description": "Apply DIP patches (e.g. Norden/Oathvein/Vel'dun RaceMenu DIP) to UI mods such as RaceMenu. Native Linux port of DIP 2.1.5 - no Wine needed. The patched SWFs are installed as a new mod above the patch.",
@@ -36,7 +36,7 @@
       "label": "If FFDec 26.4.0 fails on a file, patch it again with 18.5.0",
       "type": "boolean",
       "default": true,
-      "description": "Retries a SWF from its original with FFDec 18.5.0 (what DIP.exe uses) when the chosen FFDec errors or leaves patch filters unmatched, and keeps the better result. Uses the FFDec inside a Windows DIP mod if present, otherwise downloads it."
+      "description": "Retries a SWF from its original with FFDec 18.5.0 (what DIP.exe uses) when the chosen FFDec errors or leaves patch filters unmatched, and keeps the better result. Uses an installed FFDec 18.5.0 (or the one inside a Windows DIP mod) if present, otherwise downloads it the first time it is needed. Also used when the chosen FFDec cannot be found or downloaded."
     },
     {
       "key": "ffdec_jar",
@@ -46,9 +46,10 @@
     },
     {
       "key": "allow_download",
-      "label": "Download the FFDec version automatically if it is missing",
+      "label": "Download FFDec automatically if it is missing (the chosen version, and 18.5.0 for the fallback)",
       "type": "boolean",
-      "default": true
+      "default": true,
+      "description": "Turn off to never use the network; then install FFDec yourself with the FFDec jar or zip setting."
     },
     {
       "key": "java_memory",
