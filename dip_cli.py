@@ -50,7 +50,7 @@ def main(argv: list[str] | None = None) -> int:
                     help=f"Do not retry a SWF with FFDec {DIP_FFDEC_VERSION} when the chosen FFDec fails on it.")
     ap.add_argument("--install-ffdec", metavar="ZIP", type=Path,
                     help="Install an FFDec release zip (e.g. ffdec_26.4.0.zip) for later runs and exit.")
-    ap.add_argument("--no-download", action="store_true", help="Never download FFDec.")
+    ap.add_argument("--no-download", action="store_true", help="Never download FFDec (neither the chosen version nor 18.5.0 for the fallback).")
     ap.add_argument("--xdelta3", default="",
                     help="xdelta3 executable used for patches the built-in decoder cannot read, "
                          "or 'builtin' to never use one.")
