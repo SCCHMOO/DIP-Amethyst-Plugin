@@ -3,6 +3,7 @@
 1. Launch Amethyst Mod Manager
 2. Head to the Plugins, then "Browse Plugins"
 3. Click ***Repositories*** then ***New***
+4. Copy and Paste
 
 | Find This | Copy and Paste Here |
 | --- | --- |
@@ -10,4 +11,4 @@
 | **Branch** | `Amethyst-Plugin` |
 | **Folder** | `Amethyst-Plugins` |
 
-4.
+5. Hit ***Save***
