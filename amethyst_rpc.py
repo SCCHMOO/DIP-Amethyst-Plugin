@@ -1,5 +1,5 @@
 """
-Minimal client for Amethyst's headless JSON-RPC service (``headless --stdio``).
+Minimal client for Amethyst's headless JSON-RPC service (``headless --stdio``)
 
 The Qt panel starts one backend from ``context["headless_command"]`` and uses
 it from a worker thread only.  Job-producing methods (``*.start``) are polled
