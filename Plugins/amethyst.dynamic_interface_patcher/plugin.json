@@ -7,13 +7,7 @@
   "version": "2.1.5-linux.4",
   "author": "Linux port of Cutleast's Dynamic Interface Patcher",
   "min_manager_version": "2.6.0",
-  "description":[
-  "Apply DIP patches (e.g. Norden/Oathvein/Vel'dun RaceMenu DIP) to UI mods such as RaceMenu.
-  Native Linux port of DIP 2.1.5 - no Wine needed.
-  The patched SWFs are installed as a new mod above the patch.
-
-  This Plugin was built with Original DIP and Claude to intergrate to Linux"
-  ],
+  "description": "Apply DIP patches (e.g. Norden/Oathvein/Vel'dun RaceMenu DIP) to UI mods such as RaceMenu. Native Linux port of DIP 2.1.5 - no Wine needed. The patched SWFs are installed as a new mod above the patch. This Plugin was built with Original DIP and Claude to intergrate to Linux",
   "ui": "qt",
   "entrypoint": "main.py",
   "launch_hooks": "launch.py",
