@@ -1,8 +1,10 @@
-## Dynamic Interface Patcher for Linux (Amethyst plugin + CLI)
+# Dynamic Interface Patcher for Linux (Amethyst plugin + CLI)
 
 A native Linux port of [Dynamic Interface Patcher (DIP) 2.1.5](https://www.nexusmods.com/skyrimspecialedition/mods/96891)
 by Cutleast. It applies DIP patches, such as the Norden, Oathvein or Vel'dun *RaceMenu DIP* patches, to
 UI mods like RaceMenu. **You don't need Wine or Proton.**
+
+Current version: **2.1.5-linux.4** (DIP engine 2.1.5). See [Changes](#changes).
 
 The Windows DIP bundles a Java runtime, `7z.exe`, `xdelta.exe` and a C++ `glob.dll`. This port replaces them with:
 
@@ -22,6 +24,11 @@ is a faithful port of DIP's. Binary patches produce byte-identical output to DIP
 Copy this folder to `~/.config/AmethystModManager/Plugins/dynamic_interface_patcher/`
 (or `$XDG_CONFIG_HOME/AmethystModManager/Plugins/`), then reopen the **Plugins** menu or restart Amethyst.
 You need Amethyst 2.6.0 or newer.
+
+When you update the plugin, replace the whole folder and **restart Amethyst**. Amethyst loads the launch hook
+(`launch.py`) when it starts, so reopening the Plugins menu isn't enough to pick up changes to automatic
+re-patching. Your settings and the auto-patch records in the plugin's `data.json` are kept as long as you don't
+delete that file.
 
 ## Use it in Amethyst
 
@@ -60,20 +67,38 @@ It does not create new output mods; use the panel for that. When an update chang
 produces, it asks you to patch again in the panel. Turn it off with the setting **Before launching the game,
 re-patch DIP outputs…**.
 
+#### Replacing Automatic Patcher
+
+[Automatic Patcher](https://www.nexusmods.com/skyrimspecialedition/mods/143035) is an SKSE plugin that runs the
+Windows DIP.exe when the game starts. On Linux it isn't needed with this plugin, and it works against Amethyst:
+it writes patched SWFs straight into the game's `Data` folder and leaves backups such as
+`Data/Interface/racesex_menu.swf.<date>-<time>` behind.
+
+1. Remove (or disable) **Automatic Patcher** in Amethyst. Mods share one mods folder across profiles, so
+   removing it there takes it out of every profile.
+2. Some DIP mods (for example Norden UI, Oathvein UI and their RaceMenu DIP patches) list Automatic Patcher as a
+   requirement. Use Amethyst's option to ignore that requirement: the patches don't need it at run time.
+3. Delete any leftover `*.swf.<date>-<time>` backups it made in the game's `Data/Interface` folder.
+4. Patch each DIP mod once in the panel. From then on the launch check keeps the outputs current.
+
+After the next launch, Amethyst's log shows lines that start with "Dynamic Interface Patcher:" for each output
+it checked.
+
 The **Manual** section works like DIP.exe: it patches any patch folder and original mod folder into any
 output folder. Existing output files are renamed with a timestamp, as DIP does.
 
 ### Settings (Plugins → Browse plugins → Settings…)
 
-* **Java executable**: leave empty to auto-detect (`$JAVA_HOME`, `PATH`, `/usr/lib/jvm`).
-* **FFDec version** (default `26.4.0`): the version to find or download. FFDec installs live in
-  `~/.local/share/dynamic-interface-patcher/ffdec/<version>/`. The FFDec inside a Windows DIP mod (18.5.0) is
-  used only when you ask for `18.5.0`.
-* **FFDec jar or zip**: leave empty for automatic selection. Point it to an `ffdec.jar` to use that jar as-is,
-  or to an `ffdec_<version>.zip` release to install and use it.
-
-* **Java heap** and the default for **Repack BSA** (experimental: writes a patched copy of the original BSA into
-  the output mod instead of loose files).
+| Setting | Default | What it does |
+| --- | --- | --- |
+| **Before launching the game, re-patch DIP outputs…** | on | The [launch check](#automatic-re-patching-before-launch) |
+| **Java executable** | empty | Empty auto-detects (`$JAVA_HOME`, `PATH`, `/usr/lib/jvm`) |
+| **FFDec version** | `26.4.0` | The version to find or download. Installs live in `~/.local/share/dynamic-interface-patcher/ffdec/<version>/`. The FFDec inside a Windows DIP mod (18.5.0) is used only when you ask for `18.5.0` or for the fallback |
+| **If FFDec 26.4.0 fails on a file, patch it again with 18.5.0** | on | The [fallback](#automatic-fallback-to-ffdec-1850) |
+| **FFDec jar or zip** | empty | Empty selects automatically. An `ffdec.jar` is used as-is; an `ffdec_<version>.zip` release is installed and used. Overrides the version |
+| **Download FFDec automatically if it is missing** | on | Downloads the chosen version, and 18.5.0 for the fallback, from FFDec's GitHub releases. Off means no network use |
+| **Java heap for FFDec** | `1024m` | Raise it if FFDec runs out of memory on a large SWF |
+| **Repack BSA…** | off | Experimental: writes a patched copy of the original BSA into the output mod instead of loose files |
 
 #### Using DIP patches with FFDec 26.4.0
 
@@ -111,9 +136,23 @@ starts again from that SWF's original with FFDec 18.5.0. It then keeps the bette
 | error | error | nothing; the patch fails with both messages |
 
 Each SWF is handled separately, so one fallback doesn't affect the other files in a patch. The log names every
-file that used 18.5.0. FFDec 18.5.0 comes from a Windows DIP mod in your mod list when there is one, otherwise
-from `~/.local/share/dynamic-interface-patcher/ffdec/18.5.0`, or it is downloaded. Turn the fallback off with
-the **If FFDec 26.4.0 fails on a file…** setting or `--no-ffdec-fallback`.
+file that used 18.5.0. Turn the fallback off with the **If FFDec 26.4.0 fails on a file…** setting or
+`--no-ffdec-fallback`.
+
+**Where FFDec 18.5.0 comes from.** The patcher uses the first of these it finds:
+
+1. `~/.local/share/dynamic-interface-patcher/ffdec/18.5.0/`,
+2. the FFDec inside a Windows DIP mod in your mod list,
+3. a download of `ffdec_18.5.0.zip` from FFDec's GitHub releases, installed into the folder in step 1.
+
+It only looks when a file actually needs the fallback, so the download happens at most once, the first time
+26.4.0 fails, and later runs reuse the installed copy. If the download fails (for example, offline), the
+patcher keeps the 26.4.0 result, or reports 26.4.0's error when there is no result. Turning off **Download
+FFDec automatically…** (or `--no-download`) also stops this download. You don't need a Windows DIP mod
+installed for any of this.
+
+The fallback also covers 26.4.0 itself going missing: if FFDec 26.4.0 isn't installed and can't be
+downloaded, the patcher uses FFDec 18.5.0, found or downloaded the same way, for the whole patch.
 
 Two safeguards keep the more lenient 18.5.0 from hiding errors:
 
@@ -147,6 +186,37 @@ Options: `-b/--repack-bsa`, `-d/--debug`, `--no-backup`, `--java`, `--ffdec JAR|
 ```bash
 python3 -m unittest discover -s tests -v
 ```
+
+The 50 tests cover the LZ4, VCDIFF and BSA code, patch loading, XML edits, the FFDec 26.x translation, the
+18.5.0 fallback and its download, the launch check (with a mock staging folder, profile and deployed `Data`) and an end-to-end
+patch. Java and FFDec aren't needed to run them.
+
+## Files
+
+| File | Purpose |
+| --- | --- |
+| `plugin.json` | Amethyst plugin manifest and settings |
+| `main.py` | The Qt panel |
+| `launch.py` | Amethyst launch hook; calls `dip_core/autopatch.py` |
+| `library.py`, `amethyst_rpc.py` | Mod list scanning and Amethyst's headless API |
+| `dip_cli.py` | Command line |
+| `dip_core/patcher.py` | The DIP pipeline |
+| `dip_core/ffdec_compat.py` | FFDec 18.5.0 → 26.x translation |
+| `dip_core/autopatch.py` | Before-launch check and re-patching |
+| `dip_core/tools.py` | Java, FFDec and xdelta3 lookup, install and download |
+| `dip_core/vcdiff.py`, `lz4frame.py`, `bsa.py` | Built-in xdelta, LZ4 and BSA support |
+| `dip_core/fsutil.py`, `xmlutil.py` | Case-insensitive paths and XML helpers |
+
+## Changes
+
+* **2.1.5-linux.4**: the fallback downloads FFDec 18.5.0 when it isn't installed, so no Windows DIP mod is
+  needed. It is also used when FFDec 26.4.0 can't be found or downloaded.
+* **2.1.5-linux.3**: automatic re-patching before launch, replacing Automatic Patcher. New setting
+  **Before launching the game, re-patch DIP outputs…**. Outputs made by the panel are recorded so the check can
+  track them.
+* **2.1.5-linux.2**: FFDec 26.4.0 by default, with automatic translation of 18.5.0-style patches and a per-file
+  fallback to FFDec 18.5.0. Range checks for matrix and font-zone values.
+* **2.1.5-linux.1**: first native port of DIP 2.1.5: Amethyst panel, CLI, built-in xdelta/LZ4/BSA support.
 
 ## License
 
