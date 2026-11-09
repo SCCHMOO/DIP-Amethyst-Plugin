@@ -1,4 +1,4 @@
-# Dynamic Interface Patcher for Linux (Amethyst plugin + CLI)
+## Dynamic Interface Patcher for Linux (Amethyst plugin + CLI)
 
 A native Linux port of [Dynamic Interface Patcher (DIP) 2.1.5](https://www.nexusmods.com/skyrimspecialedition/mods/96891)
 by Cutleast. It applies DIP patches, such as the Norden, Oathvein or Vel'dun *RaceMenu DIP* patches, to
