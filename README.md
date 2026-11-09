@@ -2,7 +2,7 @@
 
 1. Launch Amethyst Mod Manager
 2. Head to the Plugins, then "Browse Plugins"
-3. Click Repositories:
+3. Click ***Repositories*** then ***New***
 
 | Find This | Copy and Paste Here |
 | --- | --- |
