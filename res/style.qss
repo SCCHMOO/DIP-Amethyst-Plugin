@@ -1,4 +1,0 @@
-/* Statusbar */
-QStatusBar {
-    border-top: 0px;
-}
