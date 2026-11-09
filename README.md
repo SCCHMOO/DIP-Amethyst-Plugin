@@ -36,6 +36,7 @@
 
 ## Credits
 
+- ***[Claude Code](https://claude.ai/code)*** by Anthropic
 - ***[Amethyst Mod Manager](https://github.com/ChrisDKN/Amethyst-Mod-Manager)*** by ChrisDKN | Github
 - ***[RaceMenu](https://www.nexusmods.com/skyrimspecialedition/mods/19080)*** by expired6978 | Nexusmods
 - ***[Dynamic Interface Patcher - DIP](https://www.nexusmods.com/skyrimspecialedition/mods/96891)*** by Cutleast | Nexusmods
