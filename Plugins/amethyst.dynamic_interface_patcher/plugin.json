@@ -9,7 +9,7 @@
   "ui": "qt",
   "entrypoint": "main.py",
   "launch_hooks": "launch.py",
-  "methods": [https://github.com/SCCHMOO/DIP-Amethyst-Plugin],
+  "methods": [],
   "settings": [
     {
       "key": "auto_patch_on_launch",
