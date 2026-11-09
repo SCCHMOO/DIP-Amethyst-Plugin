@@ -9,6 +9,6 @@
 | --- | --- |
 | **Repository URL** | `https://github.com/SCCHMOO/DIP-Amethyst-Plugin` |
 | **Branch** | `Amethyst-Plugin` |
-| **Folder** | `Amethyst-Plugins` |
+| **Folder** | `Plugins` |
 
 5. Hit ***Save***
