@@ -1,0 +1,66 @@
+{
+  "api_version": 1,
+  "id": "dynamic_interface_patcher",
+  "name": "Dynamic Interface Patcher",
+  "version": "2.1.5-linux.3",
+  "author": "Linux port of Cutleast's Dynamic Interface Patcher",
+  "min_manager_version": "2.6.0",
+  "description": "Apply DIP patches (e.g. Norden/Oathvein/Vel'dun RaceMenu DIP) to UI mods such as RaceMenu. Native Linux port of DIP 2.1.5 - no Wine needed. The patched SWFs are installed as a new mod above the patch.",
+  "ui": "qt",
+  "entrypoint": "main.py",
+  "launch_hooks": "launch.py",
+  "methods": [],
+  "settings": [
+    {
+      "key": "auto_patch_on_launch",
+      "label": "Before launching the game, re-patch DIP outputs whose patch or original mod changed",
+      "type": "boolean",
+      "default": true,
+      "description": "Checks every enabled '(DIP Output)' mod against its patch and the original mod the game uses (a quick hash check), and re-patches only when something changed. Never blocks the launch; problems are written to the log."
+    },
+    {
+      "key": "java_path",
+      "label": "Java executable (empty = auto-detect; only needed for JSON patches)",
+      "type": "file",
+      "default": ""
+    },
+    {
+      "key": "ffdec_version",
+      "label": "FFDec version (26.4.0 default; 18.5.0 = what DIP.exe bundles)",
+      "type": "text",
+      "default": "26.4.0",
+      "description": "Version to look for or download. Use 18.5.0 if a JSON patch made for DIP.exe stops applying."
+    },
+    {
+      "key": "ffdec_fallback",
+      "label": "If FFDec 26.4.0 fails on a file, patch it again with 18.5.0",
+      "type": "boolean",
+      "default": true,
+      "description": "Retries a SWF from its original with FFDec 18.5.0 (what DIP.exe uses) when the chosen FFDec errors or leaves patch filters unmatched, and keeps the better result. Uses the FFDec inside a Windows DIP mod if present, otherwise downloads it."
+    },
+    {
+      "key": "ffdec_jar",
+      "label": "FFDec jar or ffdec_<version>.zip (empty = automatic; overrides the version)",
+      "type": "file",
+      "default": ""
+    },
+    {
+      "key": "allow_download",
+      "label": "Download the FFDec version automatically if it is missing",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "key": "java_memory",
+      "label": "Java heap for FFDec (e.g. 1024m)",
+      "type": "text",
+      "default": "1024m"
+    },
+    {
+      "key": "repack_bsa",
+      "label": "Repack BSA instead of loose files by default (experimental)",
+      "type": "boolean",
+      "default": false
+    }
+  ]
+}
