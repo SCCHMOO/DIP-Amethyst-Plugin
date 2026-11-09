@@ -1,5 +1,0 @@
-name: dip
-title: Dynamic Interface Patcher
-version: ~
-nav:
-  - modules/ROOT/nav.adoc
