@@ -16,5 +16,5 @@ distributed under the same license; see LICENSE.
 
 from .patcher import DipError, Patcher, PatchOptions, check_patch, patch_targets  # noqa: F401
 
-__version__ = "2.1.5.3"
+__version__ = "2.1.5.4"
 DIP_VERSION = "2.1.5"

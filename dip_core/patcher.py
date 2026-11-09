@@ -217,7 +217,9 @@ class Patcher:
             jar = tools.resolve_ffdec(self.log, self.opt.ffdec_jar, self.opt.ffdec_hints,
                                       self.opt.ffdec_version, self.opt.allow_download)
         except tools.ToolError as e:
-            raise DipError(str(e)) from e
+            jar = self._fallback_jar_for_missing_primary(e)
+            if jar is None:
+                raise DipError(str(e)) from e
         self.log(f"Using Java {java} and FFDec {tools.jar_version(jar) or '(unknown version)'} ({jar})")
         self.ffdec = tools.FFDec(java, jar, self.opt.java_memory, self.log, self.cancel)
         return self.ffdec
@@ -369,6 +371,22 @@ class Patcher:
         finally:
             pristine.unlink(missing_ok=True)
             first.unlink(missing_ok=True)
+
+    def _fallback_jar_for_missing_primary(self, err: tools.ToolError) -> Optional[Path]:
+        """FFDec 18.5.0 (installed or downloaded) when the chosen FFDec cannot be found or downloaded."""
+        want = tools.DIP_FFDEC_VERSION
+        requested = (self.opt.ffdec_version or tools.FFDEC_VERSION).strip()
+        if not self.opt.ffdec_fallback or self.opt.ffdec_jar or requested == want:
+            return None
+        self.log(f"FFDec {requested} is not available ({err}); falling back to FFDec {want}.")
+        try:
+            jar = tools.find_exact_ffdec(self.log, self.opt.ffdec_hints, want, self.opt.allow_download)
+        except tools.ToolError as e:
+            self.log(f"Warning: {e}")
+            return None
+        if jar is not None:
+            self._fallback_note = "not needed"   # 18.5.0 is already the primary
+        return jar
 
     def _fallback_ffdec(self) -> Optional[tools.FFDec]:
         """FFDec 18.5.0 for retries, or None when disabled, not needed or unavailable."""
